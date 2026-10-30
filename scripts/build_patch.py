@@ -126,7 +126,8 @@ def build_patch(game_dir: str, output_path: str):
         index_pos = f.tell()
         fc = len(file_records)
         sc = len(file_segments)
-        table_size = 28 + (56 * fc) + (16 * sc)
+        # TableSize is size of table EXCLUDING foff(4) and fsz(4), so isize - 8!
+        table_size = 20 + (56 * fc) + (16 * sc)
         
         toc_buf = bytearray()
         toc_buf += struct.pack('<IIQ', 8, table_size, 0)
