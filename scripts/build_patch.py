@@ -118,9 +118,10 @@ def build_patch(game_dir: str, output_path: str):
             rec = struct.pack('<QQIIIII', entry['nh'], entry['ts'], 0, i, i + 1, 0, 0) + entry['sha1']
             file_records.append(rec)
         
+        # Align to 4096 bytes before TOC (IndexPosition must be % 4096 == 0 for REDengine Direct I/O)
         pos = f.tell()
-        if pos % 8 != 0:
-            f.write(b'\xd9' * (8 - (pos % 8)))
+        if pos % 4096 != 0:
+            f.write(b'\xd9' * (4096 - (pos % 4096)))
             
         index_pos = f.tell()
         fc = len(file_records)
@@ -141,13 +142,14 @@ def build_patch(game_dir: str, output_path: str):
         index_size = len(toc_buf)
         f.write(toc_buf)
         
+        # Pad file to 4096 bytes (Filesize must be % 4096 == 0)
         pos = f.tell()
-        if pos % 8 != 0:
-            f.write(b'\xd9' * (8 - (pos % 8)))
+        if pos % 4096 != 0:
+            f.write(b'\xd9' * (4096 - (pos % 4096)))
             
         filesize = f.tell()
         f.seek(0)
-        hdr = struct.pack('<4sIQIQIQ', b'RDAR', 12, index_pos, index_size, 0, 0, filesize)
+        hdr = struct.pack('<4sIQIQIQI', b'RDAR', 12, index_pos, index_size, 0, 0, filesize, 0)
         f.write(hdr)
 
     print(f"[+] Done! Archive size: {filesize} bytes (~{filesize // (1024*1024)} MB).")
