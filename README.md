@@ -1,3 +1,4 @@
+![Uploading Frame 162756.jpg…]()
 # Cyberpunk 2077: DreamVoice Phantom Liberty Text Fix & Dogtown Sync (Patch 2.50+)
 
 Микро-патч, исправляющий сломанный и отсутствующий текст в Cyberpunk 2077 (патч 2.50 и новее) при использовании неофициальной русской озвучки дополнения Phantom Liberty от **DreamVoice** (`Rus_Dub_by_DreamVoice_v5.3.1.archive`), а также приводящий субтитры и текст заданий в полное соответствие с озвучкой («Пёсий город» ➔ «Догтаун»).
